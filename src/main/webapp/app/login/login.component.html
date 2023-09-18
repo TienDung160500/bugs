@@ -1,0 +1,50 @@
+<div>
+  <div class="d-flex justify-content-center">
+    <div class="col-lg-6 col-md-8 col-sm-10">
+      <img src="../../content/images/logo-icon.png" alt="logo-RangDong">
+      <h2>công ty cổ phần bóng đèn và phích nước Rạng Đông</h2>
+      <h1 data-cy="loginTitle">Đăng nhập</h1>
+      <div class="alert alert-danger" *ngIf="authenticationError" data-cy="loginError">
+        <strong>Đăng nhập thất bại</strong> Vui lòng kiểm tra lại.
+      </div>
+      <form class="form" role="form" (ngSubmit)="login()" [formGroup]="loginForm">
+        <div class="mb-3">
+          <label class="username-label" for="username">Tài khoản</label>
+          <input
+            type="text"
+            class="form-control"
+            name="username"
+            id="username"
+            placeholder="Tài khoản"
+            formControlName="username"
+            #username
+            data-cy="username"
+            style="width: 70%; display: inline-block; text-align: center;height: 55px; border-radius: 15px; background: #D9D9D9; box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25); margin-top: 20px;"
+          />
+        </div>
+
+        <div class="mb-3">
+          <label for="password">Mật khẩu</label>
+          <input
+            type="password"
+            class="form-control"
+            name="password"
+            id="password"
+            placeholder="Mật khẩu"
+            formControlName="password"
+            data-cy="password"
+            style="width: 70%; display: inline-block; text-align: center; height: 55px; border-radius: 15px; background: #D9D9D9; box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25); margin-top: 20px;"
+          />
+        </div>
+
+        <div class="form-check">
+          <label class="form-check-label" for="rememberMe">
+            <input class="form-check-input" type="checkbox" name="rememberMe" id="rememberMe" formControlName="rememberMe" />
+            <span>Remember</span>
+          </label>
+        </div>
+
+        <button type="submit" class="btn btn-primary" data-cy="submit" style=" width: 120px; height: 50px; flex-shrink: 0;border-radius: 10px; margin-top: 30px;">Đăng nhập</button>
+      </form>
+  </div>
+</div>

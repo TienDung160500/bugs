@@ -1,0 +1,193 @@
+@import '~bootstrap/scss/functions';
+@import '~bootstrap/scss/variables';
+
+/* ==========================================================================
+Navbar
+========================================================================== */
+
+.navbar-version {
+  font-size: 0.65em;
+  color: $navbar-dark-color;
+}
+
+.profile-image {
+  height: 1.75em;
+  width: 1.75em;
+}
+
+.navbar {
+  height: 4rem;
+  padding: 0.2rem 1rem;
+
+  a.nav-link {
+    font-weight: 400;
+  }
+}
+
+/* ==========================================================================
+Logo styles
+========================================================================== */
+.logo-img {
+  background-size: 100%;
+  height: 45px;
+  width: 200px;
+  display: inline-block;
+  vertical-align: middle;
+  background: url('../../../content/images/logo.webp') no-repeat center center;
+  background-size: contain;
+  margin-bottom: 4vh;
+}
+
+/* Kiểu dáng cho thanh bên */
+#sidebar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  width: 13vw;
+  /* Điều chỉnh chiều rộng theo nhu cầu */
+  padding: 20px;
+  background-color: #001529;
+  /* Điều chỉnh màu nền theo nhu cầu */
+  color: #fff;
+  /* Màu văn bản */
+  padding-top: 20px;
+  overflow-y: auto;
+}
+
+.navbar-brand .logo {
+  text-align: center;
+  padding: 10px;
+  background-color: #222;
+  border-bottom: 1px solid #555;
+}
+
+.nav.flex-column .nav-item {
+  margin-bottom: 10px;
+}
+
+.nav-link {
+  height: 6vh;
+  color: #fff;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  transition: background-color 0.3s;
+}
+
+.nav-item:hover {
+  border-radius: 15px;
+  background-color: #1677FF;
+  border: 1px solid #1677FF;
+
+}
+
+.nav-link:focus {
+  border-radius: 15px;
+  background-color: #1677FF;
+  border: 1px solid #1677FF;
+}
+
+.fa-icon {
+  margin-right: 10px;
+}
+
+fa-icon {
+  padding-right: 10px;
+}
+
+.fa-icon .chevron-down {
+  margin-left: auto;
+}
+
+.profile-image {
+  width: 30px;
+  height: 30px;
+  margin-right: 10px;
+  object-fit: cover;
+  border-radius: 50%;
+}
+
+.dropdown-menu {
+  // color: #fff;
+  border: none;
+  box-shadow: none;
+  margin-top: 0;
+}
+
+.dropdown-item {
+  color: #fff;
+  transition: background-color 0.3s;
+}
+
+.dropdown-item:hover {
+  background-color: #555;
+}
+
+.dropdown-item .fa-icon {
+  margin-right: 10px;
+}
+
+/* Kiểu dáng cho nội dung chính */
+main {
+  margin-left: 250px;
+  /* Phù hợp với chiều rộng của thanh bên */
+  padding: 20px;
+}
+
+.navbar-title {
+  color: #fff;
+}
+
+
+.nav-item-dropdown {
+  position: relative;
+
+  &.nav-link.dropdown-toggle {
+    cursor: pointer;
+  }
+
+  &ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    display: none;
+    background-color: #fff;
+  }
+}
+
+.nav-link.dropdown-toggle {
+  cursor: pointer;
+  color: #333;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  padding: 5px 10px;
+}
+
+.nav-link.dropdown-toggle:hover {
+  background-color: #f5f5f5;
+}
+
+.fa-icon {
+  margin-right: 5px;
+}
+
+.dropdown-item {
+  color: #333;
+  padding: 10px 20px;
+}
+
+.dropdown-item:hover {
+  background-color: #f5f5f5;
+}
+
+.profile-image {
+  width: 30px;
+  height: 30px;
+  border: 1px solid #ccc;
+  border-radius: 50%;
+}

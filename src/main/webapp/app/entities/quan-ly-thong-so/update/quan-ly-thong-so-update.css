@@ -1,0 +1,8 @@
+.header-qly-thong-so {
+  display: flex;
+  justify-content: space-around;
+}
+
+.input-qly-thong-so{
+  width: 40%
+}

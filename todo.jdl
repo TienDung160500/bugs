@@ -1,0 +1,106 @@
+
+
+entity ThietBi {
+maThietBi String,
+loaiThietBi String,
+dayChuyen String,
+ngayTao ZonedDateTime,
+timeUpdate ZonedDateTime,
+updateBy String,
+status String
+}
+entity ThongSoMay{
+maThietBi String,
+loaiThietBi String,
+hangTms Integer,
+thongSo String,
+moTa String,
+trangThai String,
+phanLoai String
+}
+entity SanXuatHangNgay {
+maKichBan String,
+maThietBi String,
+loaiThietBi String,
+dayChuyen String,
+maSanPham String,
+versionSanPham String,
+ngayTao ZonedDateTime,
+timeUpdate ZonedDateTime,
+trangThai String
+}
+entity ChiTietSanXuat {
+maKichBan String,
+hangSxhn Integer,
+thongSo String,
+minValue Float,
+maxValue Float,
+trungbinh Float,
+donVi String,
+}
+entity LichSuUpdate {
+maKichBan String,
+maThietBi String,
+loaiThietBi String,
+dayChuyen String,
+maSanPham String,
+versionSanPham String,
+timeUpdate ZonedDateTime,
+status String
+}
+entity ChiTietLichSuUpdate {
+maKichBan String,
+hangLssx Integer,
+thongSo String,
+minValue Float,
+maxValue Float,
+trungbinh Float,
+donVi String,
+}
+entity KichBan {
+maKichBan String,
+maThietBi String,
+loaiThietBi String,
+dayChuyen String,
+maSanPham String,
+versionSanPham String,
+ngayTao ZonedDateTime,
+timeUpdate ZonedDateTime,
+updateBy String,
+trangThai String
+}
+entity ChiTietKichBan {
+maKichBan String,
+hangMkb Integer,
+thongSo String,
+minValue Float,
+maxValue Float,
+trungbinh Float,
+donVi String,
+phanLoai String
+}
+entity QuanLyThongSo {
+maThongSo String,
+tenThongSo String,
+moTa String,
+ngayTao ZonedDateTime,
+ngayUpdate ZonedDateTime,
+updateBy String,
+status String
+}
+relationship OneToMany {
+  ThietBi{thongSoMay} to ThongSoMay{thietBi}
+}
+relationship OneToMany {
+  SanXuatHangNgay{chiTietSanXuat} to ChiTietSanXuat{sanXuatHangNgay}
+}
+relationship OneToMany {
+  LichSuUpdate{chiTietLichSu} to ChiTietLichSuUpdate{lichSuUpdate}
+}
+relationship OneToMany {
+  KichBan{chiTietKichBan} to ChiTietKichBan{kichBan}
+}
+paginate * with pagination
+
+
+

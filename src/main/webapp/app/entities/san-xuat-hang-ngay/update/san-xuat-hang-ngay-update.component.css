@@ -1,0 +1,8 @@
+.header-sxhn{
+  display: flex;
+  justify-content: space-around;
+}
+
+.input-sxhn{
+  width: 40%;
+}

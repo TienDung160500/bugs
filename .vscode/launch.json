@@ -1,0 +1,14 @@
+{
+  "configurations": [
+    {
+      "type": "java",
+      "name": "Spring Boot-JhipsterApp<jhipster>",
+      "request": "launch",
+      "cwd": "${workspaceFolder}",
+      "mainClass": "com.mycompany.myapp.JhipsterApp",
+      "projectName": "jhipster",
+      "args": "",
+      "envFile": "${workspaceFolder}/.env"
+    }
+  ]
+}

@@ -1,0 +1,76 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    <div *ngIf="quanLyThongSo">
+      <h2 data-cy="quanLyThongSoDetailsHeading"><span>Quản lý thông số</span></h2>
+
+      <hr />
+
+      <jhi-alert-error></jhi-alert-error>
+
+      <jhi-alert></jhi-alert>
+
+      <table class="table table-striped" aria-describedby="page-heading">
+        <thead>
+          <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending">
+            <th scope="col" jhiSortBy="id"><span>STT</span></th>
+            <th scope="col" jhiSortBy="thongSo"><span>Mã thông số</span></th>
+            <th scope="col" jhiSortBy="thongSo"><span>Tên thông số</span></th>
+            <th scope="col" jhiSortBy="thongSo"><span>Mô tả</span></th>
+            <th scope="col" jhiSortBy="thongSo"><span>Ngày tạo</span></th>
+            <th scope="col" jhiSortBy="thongSo"><span>Ngày cập nhật</span></th>
+            <th scope="col" jhiSortBy="thongSo"><span>Thông số</span></th>
+            <th scope="col" jhiSortBy="thongSo"><span>Update By</span></th>
+            <th scope="col" jhiSortBy="trangThai"><span>Trạng thái</span></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            
+            <td>
+              <span>{{ quanLyThongSo.id }}</span>
+            </td>
+            
+            <td>
+              <span>{{ quanLyThongSo.maThongSo }}</span>
+            </td>
+          
+            <td>
+              <span>{{ quanLyThongSo.tenThongSo }}</span>
+            </td>
+            
+            <td>
+              <span>{{ quanLyThongSo.moTa }}</span>
+            </td>
+            
+            <td>
+              <span>{{ quanLyThongSo.ngayTao | formatMediumDatetime }}</span>
+            </td>
+            
+            <td>
+              <span>{{ quanLyThongSo.ngayUpdate | formatMediumDatetime }}</span>
+            </td>
+            
+            <td>
+              <span>{{ quanLyThongSo.updateBy }}</span>
+            </td>
+            
+            <td>
+              <span>{{ quanLyThongSo.status }}</span>
+            </td>
+
+            <td>
+              <span>{{ quanLyThongSo.status }}</span>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
+        <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span>Back</span>
+      </button>
+
+      <button type="button" [routerLink]="['/quan-ly-thong-so', quanLyThongSo.id, 'edit']" class="btn btn-primary">
+        <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span>Edit</span>
+      </button>
+    </div>
+  </div>
+</div>

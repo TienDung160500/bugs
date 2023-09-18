@@ -1,0 +1,54 @@
+* {
+  font-family: 'Nunito', sans-serif;
+}
+
+.create-thiet-bi {
+  border: none !important;
+  color: #fff;
+  background-color: #0D6EFD;
+}
+
+.btn-primary {
+  border: none !important;
+  color: #fff;
+  background-color: #0D6EFD;
+}
+
+.btn-info {
+  color: #fff;
+}
+
+
+th[scope="col"] {
+  position: relative;
+}
+
+span {
+  margin-right: 10px;
+}
+
+input {
+  padding: 5px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  margin-right: 10px;
+}
+
+ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+li {
+  margin-top: 5px;
+}
+
+ul.search-result {
+  margin-top: 10px;
+  border: 1px solid #ccc;
+  padding: 10px;
+  border-radius: 5px;
+  max-height: 150px;
+  overflow-y: auto;
+}

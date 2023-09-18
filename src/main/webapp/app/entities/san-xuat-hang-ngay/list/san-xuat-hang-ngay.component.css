@@ -1,0 +1,35 @@
+* {
+  font-family: system-ui;
+}
+
+.create-thiet-bi {
+  border: none !important;
+  color: #fff;
+  background-color: #0D6EFD;
+}
+
+.btn-primary {
+  border: none !important;
+  color: #fff;
+  background-color: #0D6EFD;
+}
+
+.btn-info {
+  color: #fff;
+}
+
+.header-tsm {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  padding-bottom: 30px;
+  padding-top: 30px;
+}
+
+.header-tsm div {
+  margin-right: 20px;
+}
+
+.form-control {
+  width: 20em;
+}

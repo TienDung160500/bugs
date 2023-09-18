@@ -1,0 +1,179 @@
+<div>
+  <h2 id="page-heading" data-cy="KichBanHeading">
+    <span>Kịch bản sản xuất</span>
+
+    <div class="d-flex justify-content-end">
+      <button class="btn btn-info me-2" (click)="loadPage()" [disabled]="isLoading">
+        <fa-icon icon="sync" [spin]="isLoading"></fa-icon>
+        <span>Refresh List</span>
+      </button>
+
+      <button
+        id="jh-create-entity"
+        data-cy="entityCreateButton"
+        class="btn btn-primary jh-create-entity create-kich-ban"
+        [routerLink]="['/kich-ban/new']"
+      >
+        <fa-icon icon="plus"></fa-icon>
+        <span> Thêm mới </span>
+      </button>
+    </div>
+  </h2>
+
+  <jhi-alert-error></jhi-alert-error>
+
+  <jhi-alert></jhi-alert>
+
+  <div class="alert alert-warning" id="no-result" *ngIf="kichBans?.length === 0">
+    <span>No kichBans found</span>
+  </div>
+
+  <div class="table-responsive" id="entities" *ngIf="kichBans && kichBans.length > 0">
+    <table class="table table-striped" aria-describedby="page-heading">
+      <thead>
+        <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending">
+          <th scope="col" jhiSortBy="id">
+            <span>STT</span>
+
+          </th>
+          <!-- ----------------------------- Tìm kiếm theo mã kịch bản ----------------------------->
+          <th scope="col" jhiSortBy="maKichBan">
+            <span>Mã kịch bản</span>
+            <input #searchInput type="text" [(ngModel)]="maKichBan" [ngModelOptions]=" 
+            {standalone: true}" (keydown.enter) = "timKiemKichBan()" placeholder="search" list="maKichBan"/>
+            <datalist id="maKichBan">
+              <option *ngFor="let data of searchResults" value="{{data.maKichBan}}" ></option>
+            </datalist>
+          </th>
+          <!-- ----------------------------- Tìm kiếm theo mã thiết bị ----------------------------->
+          <th scope="col" jhiSortBy="loaiThietBi">
+            <span>Loại thiết bị</span>
+            <input #searchInput type="text" [(ngModel)]="loaiThietBi" [ngModelOptions]=" 
+            {standalone: true}" (keydown.enter) = "timKiemKichBan()" placeholder="search" list="loaiThietBi"/>
+            <datalist id="loaiThietBi">
+              <option *ngFor="let data of searchResults" value="{{data.loaiThietBi}}" ></option>
+            </datalist>
+          </th>
+          <!-- ----------------------------- Tìm kiếm theo loại thiết bị ----------------------------->
+          <th scope="col" jhiSortBy="maThietBi">
+            <span>Mã thiết bị</span>
+            <input #searchInput type="text" [(ngModel)]="maThietBi" [ngModelOptions]=" 
+            {standalone: true}" (keydown.enter) = "timKiemKichBan()" placeholder="search" list="maThietBi"/>
+            <datalist id="maThietBi">
+              <option *ngFor="let data of searchResults" value="{{data.maThietBi}}" ></option>
+            </datalist>
+          </th>
+          <!-- ----------------------------- Tìm kiếm theo mã sản phẩm ----------------------------->
+          <th scope="col" jhiSortBy="maSanPham">
+            <span>Mã sản phẩm</span>
+            <input #searchInput type="text" [(ngModel)]="maSanPham" [ngModelOptions]=" 
+            {standalone: true}" (keydown.enter) = "timKiemKichBan()" placeholder="search" list="maSanPham"/>
+            <datalist id="maSanPham">
+              <option *ngFor="let data of searchResults" value="{{data.maSanPham}}" ></option>
+            </datalist>
+          </th>
+          <!-- ----------------------------- Tìm kiếm theo version sản phẩm ----------------------------->
+          <th scope="col" jhiSortBy="versionSanPham">
+            <span>Version sản phẩm</span>
+            <input #searchInput type="text" [(ngModel)]="versionSanPham" [ngModelOptions]=" 
+            {standalone: true}" (keydown.enter) = "timKiemKichBan()" placeholder="search" list="versionSanPham"/>
+            <datalist id="versionSanPham">
+              <option *ngFor="let data of searchResults" value="{{data.versionSanPham}}" ></option>
+            </datalist>
+          </th>
+          <!-- ----------------------------- Tìm kiếm theo ngày tạo ----------------------------->
+          <th scope="col" jhiSortBy="ngayTao">
+            <span>Ngày tạo</span>
+            <input #searchInput type="date" [(ngModel)]="ngayTao" (keyup.enter)= "timKiemKichBan()" placeholder="search" />
+          </th>
+          <!-- ----------------------------- Tìm kiếm theo ngày tạo ----------------------------->
+          <th scope="col" jhiSortBy="timeUpdate">
+            <span>Time Update</span>
+            <input #searchInput type="date" [(ngModel)]="timeUpdate" (keyup.enter)= "timKiemKichBan()" placeholder="search" />
+          </th>
+          <!-- ----------------------------- Tìm kiếm theo người tạo ----------------------------->
+          <th scope="col" jhiSortBy="updateBy">
+            <span>Update By</span>
+            <select class="form-control" [(ngModel)]="updateBy" [ngModelOptions]=" 
+            {standalone: true}" (keydown.enter) = "timKiemKichBan()">
+              <option value="admin">admin</option>
+              <option value="user">user</option>
+            </select>
+          </th>
+          <!-- ----------------------------- Tìm kiếm theo người tạo ----------------------------->
+          <th scope="col" jhiSortBy="trangThai">
+            <span>Trạng thái</span>
+            <select class="form-control" [(ngModel)]="trangThai" [ngModelOptions]=" 
+            {standalone: true}" (keydown.enter) = "timKiemKichBan()">
+              <option value="active">active</option>
+              <option value="deactive">deactive</option>
+            </select>
+          </th>
+          <th scope="col">Options</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let kichBan of kichBans;let i =index; trackBy: trackId" data-cy="entityTable">
+          <td>
+            {{i+1}}
+          </td>
+          <td>{{ kichBan.maKichBan }}</td>
+          <td>{{ kichBan.maThietBi }}</td>
+          <td>{{ kichBan.loaiThietBi }}</td>
+          <td>{{ kichBan.maSanPham }}</td>
+          <td>{{ kichBan.versionSanPham }}</td>
+          <td>{{ kichBan.ngayTao | formatMediumDatetime }}</td>
+          <td>{{ kichBan.timeUpdate | formatMediumDatetime }}</td>
+          <td>{{ kichBan.updateBy }}</td>
+          <td>{{ kichBan.trangThai }}</td>
+          <td class="text-end">
+            <div class="btn-group">
+              <button
+                type="submit"
+                [routerLink]="['/kich-ban', kichBan.id, 'view']"
+                class="btn btn-info btn-sm"
+                data-cy="entityDetailsButton"
+              >
+                <fa-icon icon="eye"></fa-icon>
+                <span class="d-none d-md-inline">View</span>
+              </button>
+
+              <button
+                type="submit"
+                [routerLink]="['/kich-ban', kichBan.id, 'edit']"
+                class="btn btn-primary btn-sm"
+                data-cy="entityEditButton"
+              >
+                <fa-icon icon="pencil-alt"></fa-icon>
+                <span class="d-none d-md-inline">Edit</span>
+              </button>
+
+              <button type="submit" (click)="delete(kichBan)" class="btn btn-danger btn-sm" data-cy="entityDeleteButton">
+                <fa-icon icon="times"></fa-icon>
+                <span class="d-none d-md-inline">Delete</span>
+              </button>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div *ngIf="kichBans && kichBans.length > 0">
+    <div class="d-flex justify-content-center">
+      <jhi-item-count [params]="{ page: page, totalItems: totalItems, itemsPerPage: itemsPerPage }"></jhi-item-count>
+    </div>
+
+    <div class="d-flex justify-content-center">
+      <ngb-pagination
+        [collectionSize]="totalItems"
+        [(page)]="ngbPaginationPage"
+        [pageSize]="itemsPerPage"
+        [maxSize]="5"
+        [rotate]="true"
+        [boundaryLinks]="true"
+        (pageChange)="loadPage($event)"
+      ></ngb-pagination>
+    </div>
+  </div>
+</div>

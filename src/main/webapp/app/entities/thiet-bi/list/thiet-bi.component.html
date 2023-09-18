@@ -1,0 +1,154 @@
+<div>
+  <h2 id="page-heading" data-cy="ThietBiHeading">
+    <span>Thiết Bị</span>
+
+    <div class="d-flex justify-content-end">
+      <button class="btn btn-info me-2" (click)="loadPage()" [disabled]="isLoading">
+        <fa-icon icon="sync" [spin]="isLoading"></fa-icon>
+        <span>Refresh List</span>
+      </button>
+
+      <button
+        id="jh-create-entity"
+        data-cy="entityCreateButton"
+        class="btn btn-primary jh-create-entity create-thiet-bi"
+        [routerLink]="['/thiet-bi/new']"
+      >
+        <fa-icon icon="plus"></fa-icon>
+        <span> Thêm mới </span>
+      </button>
+    </div>
+  </h2>
+
+  <jhi-alert-error></jhi-alert-error>
+
+  <jhi-alert></jhi-alert>
+
+  <div class="alert alert-warning" id="no-result" *ngIf="thietBis?.length === 0">
+    <span>No thietBis found</span>
+  </div>
+
+  <div class="table-responsive" id="entities" *ngIf="thietBis && thietBis.length > 0">
+    <table class="table table-striped" aria-describedby="page-heading">
+      <thead>
+        <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending" (sortChange)="loadPage()">
+          <th scope="col" jhiSortBy="id"><span>STT</span></th>
+          <th scope="col" jhiSortBy="maThietBi">
+          <!-- ----------------------------- Tìm kiếm theo mã thiết bị ----------------------------->
+            <span>Mã thiết bị</span>
+            <input #searchInput type="text" [(ngModel)]="maThietBi" [ngModelOptions]=" 
+            {standalone: true}" (keydown.enter) = "timKiemThietBi()" placeholder="search" list="maThietBi"/>
+            <datalist id="maThietBi">
+              <option *ngFor="let data of searchResults" value="{{data.maThietBi}}" ></option>
+            </datalist>
+          </th>
+
+          <th scope="col" jhiSortBy="loaiThietBi">
+          <!-- ----------------------------- Tìm kiếm theo loại thiết bị ----------------------------->
+            <span>Loại thiết bị</span>
+            <input #searchInput type="text" [(ngModel)]="loaiThietBi" [ngModelOptions]=" 
+            {standalone: true}" (keydown.enter) = "timKiemThietBi()" placeholder="search" list="loaiThietBi"/>
+            <datalist id="loaiThietBi">
+              <option *ngFor="let data of searchResults" value="{{data.loaiThietBi}}" ></option>
+            </datalist>
+          </th>
+          
+          <th scope="col" jhiSortBy="dayChuyen">
+          <!-- ----------------------------- Tìm kiếm theo dây chuyền ----------------------------->
+            <span>Dây chuyền</span>
+            <input #searchInput type="text" [(ngModel)]="dayChuyen" [ngModelOptions]=" 
+            {standalone: true}" (keydown.enter) = "timKiemThietBi()" placeholder="search" list="dayChuyen"/>
+            <datalist id="dayChuyen">
+              <option *ngFor="let data of searchResults" value="{{data.dayChuyen}}" ></option>
+            </datalist>
+          </th>
+          <th scope="col" jhiSortBy="ngayTao">
+          <!-- ----------------------------- Tìm kiếm theo ngày tạo ----------------------------->
+            <span>Ngày tạo</span>
+            <input type="date" [(ngModel)]="ngayTao" (keyup.enter)= "timKiemThietBi()" placeholder="search"/>
+          </th>
+          <th scope="col" jhiSortBy="timeUpdate" style="width: 160px">
+          <!-- ----------------------------- Tìm kiếm theo ngày cập nhật ----------------------------->
+            <span>Thời gian cập nhật</span>
+            <input type="date" [(ngModel)]="timeUpdate" (keyup.enter)= "timKiemThietBi()" placeholder="search"/>
+          </th>
+          <th scope="col" jhiSortBy="updateBy">
+          <!-- ----------------------------- Tìm kiếm theo người tạo----------------------------->
+            <span>Update By</span>
+            <select class="form-control" [(ngModel)]="updateBy" [ngModelOptions]=" 
+            {standalone: true}" (keydown.enter) = "timKiemThietBi()">
+              <option value="admin">admin</option>
+              <option value="user">user</option>
+            </select>
+          </th>
+          <th scope="col" jhiSortBy="status">
+          <!-- ----------------------------- Tìm kiếm theo trạng thái----------------------------->
+            <span>Trạng thái</span>
+            <select class="form-control" [(ngModel)]="status" [ngModelOptions]=" 
+            {standalone: true}" (keydown.enter) = "timKiemThietBi()">
+              <option value="active">active</option>
+              <option value="deactive">deactive</option>
+            </select>
+          </th>
+          <th scope="col">Options</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let thietBi of thietBis; let i = index; trackBy: trackId" data-cy="entityTable">
+          <td>{{i+1}}</td>
+          <td>{{ thietBi.maThietBi }}</td>
+          <td>{{ thietBi.loaiThietBi }}</td>
+          <td>{{ thietBi.dayChuyen }}</td>
+          <td>{{ thietBi.ngayTao | formatMediumDatetime }}</td>
+          <td>{{ thietBi.timeUpdate | formatMediumDatetime }}</td>
+          <td>{{ thietBi.updateBy }}</td>
+          <td>{{ thietBi.status }}</td>
+          <td class="text-end">
+            <div class="btn-group">
+              <button
+                type="submit"
+                [routerLink]="['/thiet-bi', thietBi.id, 'view']"
+                class="btn btn-info btn-sm"
+                data-cy="entityDetailsButton"
+              >
+                <fa-icon icon="eye"></fa-icon>
+                <!-- <span class="d-none d-md-inline">Chi tiết</span> -->
+              </button>
+
+              <button
+                type="submit"
+                [routerLink]="['/thiet-bi', thietBi.id, 'edit']"
+                class="btn btn-primary btn-sm"
+                data-cy="entityEditButton"
+              >
+                <fa-icon icon="pencil-alt"></fa-icon>
+                <!-- <span class="d-none d-md-inline">Chỉnh sửa</span> -->
+              </button>
+
+              <button type="submit" (click)="delete(thietBi)" class="btn btn-danger btn-sm" data-cy="entityDeleteButton">
+                <fa-icon icon="times" class="delete-icon"></fa-icon>
+                <!-- <span class="d-none d-md-inline">Xóa</span> -->
+              </button>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div *ngIf="thietBis && thietBis.length > 0">
+
+    <div>
+      <ngb-pagination
+        [collectionSize]="totalItems"
+        [(page)]="ngbPaginationPage"
+        [pageSize]="itemsPerPage"
+        [maxSize]="5"
+        [rotate]="true"
+        [boundaryLinks]="true"
+        (pageChange)="loadPage($event)"
+        style="float: right;"
+      ></ngb-pagination>
+    </div>
+  </div>
+</div>

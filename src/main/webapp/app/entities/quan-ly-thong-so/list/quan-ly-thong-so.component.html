@@ -1,0 +1,139 @@
+<div>
+  <h2 id="page-heading" data-cy="QuanLyThongSoHeading">
+    <span>Quản lý thông số</span>
+    <div class="d-flex justify-content-end">
+      <button class="btn btn-info me-2" (click)="loadPage()" [disabled]="isLoading">
+        <fa-icon icon="sync" [spin]="isLoading"></fa-icon>
+        <span>Refresh List</span>
+      </button>
+
+      <button id="jh-create-entity" data-cy="entityCreateButton"
+        [routerLink]="['/quan-ly-thong-so/new']" class="btn btn-primary jh-create-entity create-quan-ly-thong-so" >
+        <fa-icon icon="plus"></fa-icon>
+        <span> Thêm mới </span>
+      </button>
+    </div>
+  </h2>
+
+  <!-- <jhi-alert-error></jhi-alert-error>
+
+  <jhi-alert></jhi-alert> -->
+
+  <div class="alert alert-warning" id="no-result" *ngIf="quanLyThongSos?.length === 0">
+    <span>No quanLyThongSos found</span>
+  </div>
+
+  <div class="table-responsive" id="entities" *ngIf="quanLyThongSos && quanLyThongSos.length > 0">
+    <table class="table table-striped" aria-describedby="page-heading">
+      <thead>
+        <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending" (sortChange)="loadPage()">
+          <th scope="col" jhiSortBy="id"><span>STT</span></th>
+          <th scope="col" jhiSortBy="maThongSo">
+          <!-- ----------------------------- Tìm kiếm theo mã thông số -----------------------------> 
+          <span>Mã thông số</span>
+            <input #searchInput type="text" [(ngModel)]="maThongSo" [ngModelOptions]="{standalone: true}" 
+             (keydown.enter) = "timKiemThietBi()" placeholder="search" list="maThongSo"/>
+          <!--------------------------- chọn mã thông số ----------------------->
+            <datalist id="maThongSo" >
+              <option *ngFor="let data of listQuanLyThongSo" value="{{data.maThongSo}}"></option>
+            </datalist>
+          </th>
+          <!-- ----------------------------- Tìm kiếm theo tên thông số ----------------------------->
+          <th scope="col" jhiSortBy="tenThongSo">
+            <span>Tên thông số</span>
+            <input #searchInput type="text" [(ngModel)]="tenThongSo" [ngModelOptions]=" 
+            {standalone: true}" (keydown.enter) = "timKiemThietBi()" placeholder="search" list="tenThongSo"/>
+            <datalist id="tenThongSo">
+              <option *ngFor="let data of listQuanLyThongSo" value="{{data.tenThongSo}}" ></option>
+            </datalist>
+          </th>
+          <!-- ----------------------------- Tìm kiếm theo mô tả ----------------------------->
+          <th scope="col" jhiSortBy="moTa">
+            <span>Mô tả</span>
+            <input #searchInput type="text" [(ngModel)]="moTa" [ngModelOptions]=" 
+            {standalone: true}" (keydown.enter) = "timKiemThietBi()" placeholder="search" list="moTa"/>
+            <datalist id="moTa">
+              <option *ngFor="let data of listQuanLyThongSo" value="{{data.moTa}}" ></option>
+            </datalist>
+          </th>
+          <!-- ----------------------------- Tìm kiếm theo ngày tạo ( chưa làm được )----------------------------->
+          <th scope="col" jhiSortBy="ngayTao">
+            <span>Ngày tạo</span>
+            <input type="datetime-local" />
+          </th>
+          <!-- ----------------------------- Tìm kiếm theo ngày cập nhật ( chưa làm được )----------------------------->
+          <th scope="col" jhiSortBy="ngayUpdate">
+            <span>Ngày cập nhật</span>
+            <input type="datetime-local" />
+          </th>
+          <!-- ----------------------------- Tìm kiếm theo người tạo ----------------------------->
+          <th scope="col" jhiSortBy="updateBy">
+            <span>Update By</span>
+            <select class="form-control" [(ngModel)]="updateBy" [ngModelOptions]=" 
+            {standalone: true}" (keydown.enter) = "timKiemThietBi()">
+              <option value="admin">admin</option>
+              <option value="user">user</option>
+            </select>
+          </th>
+          <!-- ----------------------------- Tìm kiếm theo trạng thái ----------------------------->
+          <th scope="col" jhiSortBy="status">
+            <span>Trạng thái</span>
+            <select class="form-control" [(ngModel)]="status" [ngModelOptions]=" 
+            {standalone: true}" (keydown.enter) = "timKiemThietBi()">
+              <option value="active">active</option>
+              <option value="deactive">deactive</option>
+            </select>
+          </th>
+
+          <th scope="col">Options</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let quanLyThongSo of quanLyThongSos;let i = index; trackBy: trackId" data-cy="entityTable">
+          <td>
+            <a>{{i+1}}</a>
+          </td>
+          <td>{{ quanLyThongSo.maThongSo }}</td>
+          <td>{{ quanLyThongSo.tenThongSo }}</td>
+          <td>{{ quanLyThongSo.moTa }}</td>
+          <td>{{ quanLyThongSo.ngayTao | formatMediumDatetime }}</td>
+          <td>{{ quanLyThongSo.ngayUpdate | formatMediumDatetime }}</td>
+          <td>{{ quanLyThongSo.updateBy }}</td>
+          <td>{{ quanLyThongSo.status }}</td>
+          <td class="text-end">
+            <div class="btn-group">
+              <button type="submit" [routerLink]="['/quan-ly-thong-so', quanLyThongSo.id, 'view']"
+                class="btn btn-info btn-sm" data-cy="entityDetailsButton">
+                <fa-icon icon="eye"></fa-icon>
+                <!-- <span class="d-none d-md-inline">View</span> -->
+              </button>
+
+              <button type="submit" [routerLink]="['/quan-ly-thong-so', quanLyThongSo.id, 'edit']"
+                class="btn btn-primary btn-sm" data-cy="entityEditButton">
+                <fa-icon icon="pencil-alt"></fa-icon>
+                <!-- <span class="d-none d-md-inline">Edit</span> -->
+              </button>
+
+              <button type="submit" (click)="delete(quanLyThongSo)" class="btn btn-danger btn-sm"
+                data-cy="entityDeleteButton">
+                <fa-icon icon="times"></fa-icon>
+                <!-- <span class="d-none d-md-inline">Delete</span> -->
+              </button>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div *ngIf="quanLyThongSos && quanLyThongSos.length > 0">
+    <div class="d-flex justify-content-center">
+      <jhi-item-count [params]="{ page: page, totalItems: totalItems, itemsPerPage: itemsPerPage }"></jhi-item-count>
+    </div>
+
+    <div class="d-flex justify-content-center">
+      <ngb-pagination [collectionSize]="totalItems" [(page)]="ngbPaginationPage" [pageSize]="itemsPerPage" [maxSize]="5"
+        [rotate]="true" [boundaryLinks]="true" (pageChange)="loadPage($event)"></ngb-pagination>
+    </div>
+  </div>
+</div>
